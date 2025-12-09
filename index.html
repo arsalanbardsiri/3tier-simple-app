@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Client</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .data { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div id="user-display">Loading...</div>
+
+    <script>
+        // distinct fetch call to our server
+        fetch('http://localhost:3000/users/12')
+            .then(response => response.json())
+            .then(data => {
+                const display = document.getElementById('user-display');
+                display.innerHTML = `
+                    <div class="data">
+                        <p><strong>First Name:</strong> ${data.firstName}</p>
+                        <p><strong>Last Name:</strong> ${data.lastName}</p>
+                        <p><strong>ID:</strong> ${data.id}</p>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('user-display').innerHTML = 'Error fetching data.';
+            });
+    </script>
+</body>
+</html>
