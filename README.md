@@ -1,63 +1,44 @@
-# Simple Single Server App
+# 3-Tier Simple App
 
-A learning project to understand the basics of **System Design**, **HTTP**, and **Client-Server Architecture**.
+This project demonstrates the evolution of a web application from a single-server setup to a 3-tier architecture.
 
+## Architecture
 
-```mermaid
-graph TD
-    subgraph User["User Devices"]
-        Browser["💻 Web Browser"]
-        Mobile["📱 Mobile App"]
-    end
+- **Tier 1 (Client)**: Web Browser / Mobile App (simulated)
+- **Tier 2 (Web Server)**: Node.js Express Application
+- **Tier 3 (Database)**: PostgreSQL (running via Docker Compose)
 
-    DNS[("🌐 DNS Server")]
-    Server["🖥️ Web Server (Node.js/Express)"]
+## Prerequisites
 
-    Browser -- "1. Lookup Domain" --> DNS
-    Mobile -- "1. Lookup Domain" --> DNS
-    DNS -- "2. Return IP" --> Browser
-    DNS -- "2. Return IP" --> Mobile
+- Node.js installed
+- Docker and Docker Compose installed
 
-    Browser -- "3. HTTP Request (GET /users/12)" --> Server
-    Mobile -- "3. HTTP Request (GET /users/12)" --> Server
-    
-    Server -- "4. JSON Response (304/200 OK)" --> Browser
-    Server -- "4. JSON Response (200 OK)" --> Mobile
-```
+## Getting Started
 
+### 1. Start the Database (Data Tier)
+We use Docker Compose to spin up the PostgreSQL database. This acts as our dedicated database server.
 
-## 🎯 Project Goal
-To build a "Single Server" system from scratch that can handle requests from various clients (Web, Mobile, etc.) and serve JSON data.
-
-## 📚 What We Learned
-This repository demonstrates:
-1.  **Node.js & Express**: Setting up a basic web server.
-2.  **HTTP Protocol**: Understanding Requests, Responses, and Methods (GET).
-3.  **API Design**: Serving JSON data at specific endpoints (`/users/12`).
-4.  **CORS**: Handling Cross-Origin Resource Sharing for browser security.
-5.  **Caching**: Understanding the `304 Not Modified` status and ETags.
-6.  **Clients**: Simulating a Web Client using raw HTML/JS and `fetch()`.
-
-*For detailed step-by-step learning notes, check out [System Design Notes](system_design_notes.md).*
-
-## 🚀 How to Run
-
-### 1. Start the Server
 ```bash
-# Install dependencies (only first time)
-npm install
-
-# Start the server
-node server.js
+docker compose up -d
 ```
-Expected output: `Server running on port 3000`
 
-### 2. Run the Client
-Open `index.html` in your favorite browser.
-- You should see the User Profile data loaded dynamically.
-- Open the **Developer Tools (F12) -> Network Tab** to see the HTTP requests.
+To stop the database:
+```bash
+docker compose down
+```
 
-## 📂 Project Structure
-- `server.js`: The backend API handling logic.
-- `index.html`: The frontend simulation.
-- `system_design_notes.md`: Our learning journal and documentation.
+### 2. Start the Web Server (Web Tier)
+Install dependencies (if not already done):
+```bash
+npm install
+```
+
+Start the application:
+```bash
+npm start
+```
+
+## Project Structure
+- `server.js`: The Web Application Server.
+- `docker-compose.yml`: Configuration for the Database Server (PostgreSQL).
+- `system_design_notes.md`: Study notes on system architecture.
