@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./db');
 const cors = require('cors');
 const app = express();
 const port = 3000;
@@ -6,21 +7,20 @@ const port = 3000;
 app.use(cors());
 
 // Route for /users/12
-app.get('/users/12', (req, res) => {
-    const user = {
-        id: 12,
-        firstName: "John",
-        lastName: "Smith",
-        address: {
-            streetAddress: "21 2nd Street",
-            city: "New York",
-            state: "NY",
-            postalCode: 10021
-        },
-        phoneNumbers: ["212 555-1234", "646 555-4567"]
-    };
+app.get('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
 
-    res.json(user);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 app.listen(port, () => {
