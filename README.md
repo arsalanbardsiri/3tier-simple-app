@@ -6,8 +6,8 @@ This project demonstrates the evolution of a web application from a single-serve
 
 ```mermaid
 graph TD
-    Client[Client (Browser/Mobile)] <-->|HTTP| WebServer[Web Tier (Node.js)]
-    WebServer <-->|SQL| Database[(Data Tier (PostgreSQL))]
+    Client["Client (Browser/Mobile)"] <-->|HTTP| WebServer["Web Tier (Node.js)"]
+    WebServer <-->|SQL| Database["(Data Tier (PostgreSQL))"]
 ```
 
 - **Tier 1 (Client)**: Web Browser / Mobile App (simulated)
