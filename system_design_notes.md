@@ -9,6 +9,21 @@ With the growth of the user base, one server is not sufficient. We need multiple
 
 Separating these concerns allows them to be scaled independently.
 
+### Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User as Client (Browser/App)
+    participant Web as Web Tier (Node.js)
+    participant DB as Data Tier (PostgreSQL)
+
+    User->>Web: HTTP GET /users/1
+    Note over Web: App Logic
+    Web->>DB: SQL SELECT * FROM users WHERE id = 1
+    DB-->>Web: User Row (JSON)
+    Web-->>User: JSON Response { "id": 1, ... }
+```
+
 ### Database Options
 
 #### Relational Databases (RDBMS)
